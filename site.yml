@@ -53,7 +53,7 @@
     - name: Start the ntp service
       become: true
       become_method: sudo
-      service: name=ntp state=started enabled=true
+      service: name=ntpd state=started enabled=true
 
     ###################
     # Security
