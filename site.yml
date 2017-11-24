@@ -143,8 +143,8 @@
     # Deploying Django--an-app-at-a-time
     ###################
     - name: Git clone/pull Django--an-app-at-a-time
-      command: git clone git@github.com:Labibme/Django--an-app-at-a-time.git
-      copy: requirements=/home/{{ user }}/Django--an-app-at-a-time.git
+      command: /usr/bin/git clone git@github.com:Labibme/Django--an-app-at-a-time.git
+      copy: src=/home/{{ user }}/Django--an-app-at-a-time.git
             dest=/home/{{ user }}/project
       remote_user: "{{ user }}"
 
