@@ -47,7 +47,7 @@
     - name: Install NTP (and update apt cache for the first install)
       become: true
       become_method: sudo
-      apt: name=ntp state=present
+      yum: name=ntp state=present
            update_cache=yes
 
     - name: Start the ntp service
@@ -61,7 +61,7 @@
     - name: Install fail2ban
       become: true
       become_method: sudo
-      apt: name=fail2ban state=present
+      yum: name=fail2ban state=present
 
     - name: Start fail2ban service
       become: true
@@ -88,7 +88,7 @@
     - name: Install usefull system tools
       become: true
       become_method: sudo
-      apt: name={{ item }} state=present
+      yum: name={{ item }} state=present
       with_items:
         - vim
         - htop
@@ -102,7 +102,7 @@
     - name: Install Nginx
       become: true
       become_method: sudo
-      apt: name=nginx state=latest
+      yum: name=nginx state=latest
 
     - name: Start nginx service
       become: true
@@ -121,7 +121,7 @@
     - name: Install Supervisor
       become: true
       become_method: sudo
-      apt: name=supervisor state=latest
+      yum: name=supervisor state=latest
 
     - name: Start supervisor service
       become: true
@@ -134,7 +134,7 @@
     - name: Install pip
       become: true
       become_method: sudo
-      apt: name=python-pip state=latest
+      yum: name=python-pip state=latest
 
     - name: Install virtualenv
       become: true
@@ -147,7 +147,7 @@
     - name: Git clone/pull Django--an-app-at-a-time
       become: true
       become_method: sudo
-      git: repo=https://github.com/sametmax/Django--an-app-at-a-time.git
+      git: repo=https://github.com/Labibme/Django--an-app-at-a-time
            dest=/home/{{ user }}/project
       remote_user: "{{ user }}"
 
