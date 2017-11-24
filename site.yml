@@ -143,7 +143,7 @@
     # Deploying Django--an-app-at-a-time
     ###################
     - name: Git clone/pull Django--an-app-at-a-time
-      become= true
+      become: true
       become_user: labib
       git: repo=git@github.com:Labibme/Django--an-app-at-a-time.git
            dest=/home/{{ user }}/project
