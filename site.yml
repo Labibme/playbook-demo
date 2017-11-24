@@ -75,10 +75,10 @@
             dest=/etc/iptables.up
       notify: reload iptables
 
-    - name: Copy iptables init script # To load iptables on server restart
+    - name: save iptables init script # To load iptables on server restart
       become: true
       become_method: sudo
-      service: name=iptables state=save enabled=true
+      command: iptables-save
 
     ###################
     # Misc. tools
