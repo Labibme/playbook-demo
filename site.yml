@@ -175,7 +175,7 @@
       become: true
       become_method: sudo
       template: src=templates/supervisor.conf.j2
-                dest=/etc/supervisor/conf.d/{{ user }}.conf
+                dest=/etc/supervisord.d/{{ user }}.conf
       notify: restart supervisor
 
     - name: Setup Nginx config for our app
