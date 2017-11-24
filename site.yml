@@ -47,13 +47,13 @@
     - name: Install NTP (and update apt cache for the first install)
       become: true
       become_method: sudo
-      apt: name=ntp state=present
+      yum: name=ntp state=present
            update_cache=yes
 
     - name: Start the ntp service
       become: true
       become_method: sudo
-      service: name=ntp state=started enabled=true
+      service: name=ntpd state=started enabled=true
 
     ###################
     # Security
@@ -61,7 +61,7 @@
     - name: Install fail2ban
       become: true
       become_method: sudo
-      apt: name=fail2ban state=present
+      yum: name=fail2ban state=present
 
     - name: Start fail2ban service
       become: true
@@ -75,12 +75,10 @@
             dest=/etc/iptables.up
       notify: reload iptables
 
-    - name: Copy iptables init script # To load iptables on server restart
+    - name: save iptables init script # To load iptables on server restart
       become: true
       become_method: sudo
-      copy: src=files/iptables-script
-            dest=/etc/network/if-pre-up.d/iptables
-            mode=0755
+      command: iptables-save
 
     ###################
     # Misc. tools
@@ -88,7 +86,7 @@
     - name: Install usefull system tools
       become: true
       become_method: sudo
-      apt: name={{ item }} state=present
+      yum: name={{ item }} state=present
       with_items:
         - vim
         - htop
@@ -102,7 +100,7 @@
     - name: Install Nginx
       become: true
       become_method: sudo
-      apt: name=nginx state=latest
+      yum: name=nginx state=latest
 
     - name: Start nginx service
       become: true
@@ -121,12 +119,12 @@
     - name: Install Supervisor
       become: true
       become_method: sudo
-      apt: name=supervisor state=latest
+      yum: name=supervisor state=latest
 
     - name: Start supervisor service
       become: true
       become_method: sudo
-      service: name=supervisor state=started enabled=true
+      service: name=supervisord state=started enabled=true
 
     ###################
     # Python / Virtualenv
@@ -134,7 +132,7 @@
     - name: Install pip
       become: true
       become_method: sudo
-      apt: name=python-pip state=latest
+      yum: name=python-pip state=latest
 
     - name: Install virtualenv
       become: true
@@ -145,9 +143,7 @@
     # Deploying Django--an-app-at-a-time
     ###################
     - name: Git clone/pull Django--an-app-at-a-time
-      become: true
-      become_method: sudo
-      git: repo=https://github.com/sametmax/Django--an-app-at-a-time.git
+      git: repo=git@github.com:Labibme/Django--an-app-at-a-time.git
            dest=/home/{{ user }}/project
       remote_user: "{{ user }}"
 
@@ -177,7 +173,7 @@
       become: true
       become_method: sudo
       template: src=templates/supervisor.conf.j2
-                dest=/etc/supervisor/conf.d/{{ user }}.conf
+                dest=/etc/supervisord.d/{{ user }}.conf
       notify: restart supervisor
 
     - name: Setup Nginx config for our app
@@ -205,7 +201,7 @@
     - name: update tzdata
       become: true
       become_method: sudo
-      command: /usr/sbin/dpkg-reconfigure --frontend noninteractive tzdata
+      command: tzdata-update
     - name: restart nginx
       become: true
       become_method: sudo
@@ -213,4 +209,8 @@
     - name: restart supervisor
       become: true
       become_method: sudo
-      service: name=supervisor state=restarted enabled=yes
+      service: name=supervisord state=restarted enabled=yes
+    - name: restart supervisor
+      become: true
+      become_method: sudo
+      service: name=firewalld state=stop enabled=no
