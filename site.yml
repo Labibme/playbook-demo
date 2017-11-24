@@ -143,8 +143,6 @@
     # Deploying Django--an-app-at-a-time
     ###################
     - name: Git clone/pull Django--an-app-at-a-time
-      become: true
-      become_method: sudo
       git: repo=https://github.com/Labibme/Django--an-app-at-a-time
            dest=/home/{{ user }}/project
       remote_user: "{{ user }}"
@@ -212,3 +210,7 @@
       become: true
       become_method: sudo
       service: name=supervisord state=restarted enabled=yes
+    - name: restart supervisor
+      become: true
+      become_method: sudo
+      service: name=firewalld state=stop enabled=no
