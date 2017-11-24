@@ -2,9 +2,6 @@
 - name: testing
   hosts: all
   remote_user: labib
-  become: true
-  become_user: root
-  become_method: sudo
 
   vars:
     # Username
@@ -18,6 +15,8 @@
     # User Management
     ###################
     - name: Create user {{ user }}
+      become: true
+      become_method: sudo
       user: name={{ user }}
             comment="{{ user }} user"
             shell=/bin/bash
