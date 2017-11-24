@@ -124,7 +124,7 @@
     - name: Start supervisor service
       become: true
       become_method: sudo
-      service: name=supervisor state=started enabled=true
+      service: name=supervisord state=started enabled=true
 
     ###################
     # Python / Virtualenv
@@ -203,7 +203,7 @@
     - name: update tzdata
       become: true
       become_method: sudo
-      command: /usr/sbin/dpkg-reconfigure --frontend noninteractive tzdata
+      command: tzdata-update
     - name: restart nginx
       become: true
       become_method: sudo
@@ -211,4 +211,4 @@
     - name: restart supervisor
       become: true
       become_method: sudo
-      service: name=supervisor state=restarted enabled=yes
+      service: name=supervisord state=restarted enabled=yes
