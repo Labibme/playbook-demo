@@ -1,8 +1,9 @@
 ---
 - name: testing
   hosts: all
+  remote_user: labib
   become: true
-  become_user: labib
+  become_user: root
   become_method: sudo
 
   vars:
